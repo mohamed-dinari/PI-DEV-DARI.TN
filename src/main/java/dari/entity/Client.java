@@ -1,7 +1,6 @@
 package dari.entity;
 
 import java.io.Serializable;
-//import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -13,12 +12,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-
-import dari.entity.AnnonceImmobilier;
-import dari.entity.Feedback;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
+//@JsonIdentityInfo(generator=ObjectIdGenerators.IntSequenceGenerator.class)
 public class Client implements Serializable{
 	
 	/**
@@ -27,19 +26,16 @@ public class Client implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	private Long idClient;
-	/*@OneToMany(cascade = CascadeType.ALL, mappedBy="client")
-	private Collection<SurveillanceCommand> SurveillanceCommands;*/
+	private long idClient;
+	@Column(name="ADRESSE_EMAIL")
 	private String adresseEmail;
 	@Column(name="tel")
-	private long tel;
+	private String tel;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="client")
-	@JsonManagedReference
 	private Set<AnnonceImmobilier> AnnoncesImmobiliers;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="client")
-	@JsonManagedReference
 	private List<Feedback> feedbacks;
 	
 	public long getIdClient() {
@@ -64,14 +60,15 @@ public class Client implements Serializable{
 		this.adresseEmail = adresseEmail;
 	}
 
-	public long getTel() {
+	public String getTel() {
 		return tel;
 	}
 
-	public void setTel(long tel) {
+	public void setTel(String tel) {
 		this.tel = tel;
 	}
-
+	
+	//@JsonManagedReference
 	public Set<AnnonceImmobilier> getAnnoncesImmobiliers() {
 		return AnnoncesImmobiliers;
 	}
@@ -80,7 +77,7 @@ public class Client implements Serializable{
 		AnnoncesImmobiliers = annoncesImmobiliers;
 	}
 
-	public Client(long idClient, String adresseEmail, long tel, Set<AnnonceImmobilier> annoncesImmobiliers,
+	public Client(long idClient, String adresseEmail, String tel, Set<AnnonceImmobilier> annoncesImmobiliers,
 			List<Feedback> feedbacks) {
 		super();
 		this.idClient = idClient;
@@ -93,5 +90,6 @@ public class Client implements Serializable{
 	public Client() {
 		super();
 	}
+	
 	
 }

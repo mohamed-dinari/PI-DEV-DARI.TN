@@ -1,6 +1,7 @@
 package dari.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -14,23 +15,27 @@ import dari.entity.Client;
 import dari.entity.TypeTransaction;
 import dari.repository.AnnonceRepository;
 import dari.repository.ClientRepository;
-import dari.service.IAnnonceService;
-
-
 
 @Service
-public class AnnonceServiceImpl implements IAnnonceService{
+public class AnnonceServiceImpl implements IAnnonceService {
 	@Autowired
-	AnnonceRepository annonceRepository;
+	AnnonceRepository ar;
 	@Autowired
 	ClientRepository cr;
+	
 	private static final Logger L =LogManager.getLogger(AnnonceServiceImpl.class);
-
-
+	
+	
+	@Override
+	public AnnonceImmobilier addAnnonce(long id,AnnonceImmobilier annonce) {
+		Client c = cr.findById(id).get();
+		annonce.setClient(c);
+		return ar.save(annonce);
+	}
 	@Override
 	public List<AnnonceImmobilier> retrieveAllAnnonces() {
 		
-		List<AnnonceImmobilier> annonces =(List<AnnonceImmobilier>) annonceRepository.findAll();
+		List<AnnonceImmobilier> annonces =(List<AnnonceImmobilier>) ar.findAll();
 		
 		for(AnnonceImmobilier annonce : annonces  ){
 			L.info("annonce +++"+ annonce ) ;
@@ -38,64 +43,66 @@ public class AnnonceServiceImpl implements IAnnonceService{
 			return annonces;
 	}
 
-	@Override
+	/*@Override
 	public AnnonceImmobilier addAnnonce(long id_client,AnnonceImmobilier annonce) {
 		Client a = new Client();
 		Client c = (Client) cr.findById(id_client).get();
 		a.setIdClient(id_client);a.setAdresseEmail(c.getAdresseEmail());a.setTel(c.getTel());
 		annonce.setClient(a);
+		//String s = "+216" + c.getTel();
+		//sendSms(s, "+18479735081", "You have requested to add a property");
 		return annonceRepository.save(annonce);
-	}
+		}*/
 
 	@Override
 	public AnnonceImmobilier retrieveAnnonce(long annonce_ref) {
 		
-		return annonceRepository.findById(annonce_ref).get();
+		return ar.findById(annonce_ref).get();
 	}
 
 	@Override
 	public void deleteAnnonce(long annonce_ref) {
-		annonceRepository.deleteById(annonce_ref);
+		ar.deleteById(annonce_ref);
 	}
 
 	@Override
 	public AnnonceImmobilier updateAnnonce(AnnonceImmobilier annonce) {
-		return annonceRepository.save(annonce);
+		return ar.save(annonce);
 	}
 
 	@Override
 	public List<AnnonceImmobilier> retrieveAnnonceByRegion(AnnonceRegion region) {
 		
-		return annonceRepository.retrieveByRegion(region);
+		return ar.retrieveByRegion(region);
 	}
 
 	@Override
 	public List<AnnonceImmobilier> retrieveAnnonceByType(AnnonceType type) {	
-		return annonceRepository.retrieveByType(type);
+		return ar.retrieveByType(type);
 	}
 
 	@Override
 	public List<AnnonceImmobilier> retrieveAnnonceByPrixMax(long prixMax) {
 
-		return annonceRepository.retrieveByPrixMax(prixMax);
+		return ar.retrieveByPrixMax(prixMax);
 	}
 
 	@Override
 	public List<AnnonceImmobilier> retrieveAnnonceByPrixMin(long prixMin) {
 	
-		return annonceRepository.retrieveByPrixMin(prixMin);
+		return ar.retrieveByPrixMin(prixMin);
 	}
 
 	@Override
 	public List<AnnonceImmobilier> retrieveAnnonceByTypeTrans(TypeTransaction typeTrans) {
 
-		return annonceRepository.retrieveByTypeTrans(typeTrans);
+		return ar.retrieveByTypeTrans(typeTrans);
 	}
 
 	@Override
 	public long StatByRegion(AnnonceRegion region) {
 		
-		return annonceRepository.statByRegion(region);
+		return ar.statByRegion(region);
 	}
 
 	/*@Override
@@ -109,20 +116,14 @@ public class AnnonceServiceImpl implements IAnnonceService{
 
 	@Override
 	public long StatByType(AnnonceType type) {
-		return annonceRepository.statByType(type);
+		return ar.statByType(type);
 	}
 
 	@Override
 	public long StatByTypeTrans(TypeTransaction typeTrans) {
 
-		return annonceRepository.statByTypeTrans(typeTrans);
+		return ar.statByTypeTrans(typeTrans);
 	}
 
-	/*@Override
-	public List<AnnonceImmobilier> retrieveRegionById(AnnonceRegion region) {
-		// TODO Auto-generated method stub
-		return annonceRepository.retrieveRgionByID(region);
-	} */
 
-	
 }

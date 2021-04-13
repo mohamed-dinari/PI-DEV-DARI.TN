@@ -8,8 +8,8 @@ import dari.entity.AnnonceType;
 import dari.entity.TypeTransaction;
 
 public interface IAnnonceService {
+	public AnnonceImmobilier addAnnonce(long id,AnnonceImmobilier annonce);
 	List<AnnonceImmobilier> retrieveAllAnnonces();
-	AnnonceImmobilier addAnnonce(long id_client,AnnonceImmobilier annonce);
 	AnnonceImmobilier retrieveAnnonce(long annonce_ref);
 	void deleteAnnonce(long annonce_ref);
 	AnnonceImmobilier updateAnnonce(AnnonceImmobilier annonce);
@@ -24,6 +24,4 @@ public interface IAnnonceService {
 	long StatByType(AnnonceType Type);
 	long StatByTypeTrans(TypeTransaction typeTrans);
 	
-	
-	/*List<AnnonceImmobilier> retrieveRegionById(AnnonceRegion region);*/
 }

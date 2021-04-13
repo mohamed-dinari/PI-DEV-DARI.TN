@@ -32,9 +32,9 @@ public class Feedback implements Serializable {
 	private String commentaire;
 	
 	@ManyToOne
-	@JsonBackReference
+	@JsonBackReference 
 	private Client client;
-	@ManyToOne
+	@ManyToOne 
 	@JsonBackReference 
 	private AnnonceImmobilier annonce;
 	

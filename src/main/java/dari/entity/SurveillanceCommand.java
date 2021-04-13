@@ -17,11 +17,6 @@ import javax.persistence.TemporalType;
 @Entity
 public class SurveillanceCommand implements Serializable{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -7655550100630868773L;
-
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long idCommand;
